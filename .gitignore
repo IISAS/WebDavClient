@@ -3,3 +3,5 @@ src/main/java/sk/uisav/icontrol/Settings.java
 /.idea/
 /target/
 example.log*
+
+src/test/resources/log4j.properties
