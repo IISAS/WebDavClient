@@ -197,7 +197,7 @@ public class WebDavClient
     }
 
     public boolean isDirectory(String remote) throws IOException {
-        List<DavResource> resList = sardine.list(this.getFullUrl(remote));
+        List<WebDavResource> resList = listResources(remote);
         return true;
 
     }

@@ -51,4 +51,20 @@ public class WebDavClientTest {
     @Test
     public void testIsDirectory() {
     }
+
+    @Test
+    public void testTestIsDirectory() {
+        try
+        {
+            WebDavClient wdc = new WebDavClient(Settings.MesosWDusername, Settings.MesosWDpassword, Settings.MesosWDroot);
+            assertEquals(true, wdc.isDirectory("/"));
+            assertEquals(true, wdc.isDirectory("/Microstep"));
+            assertEquals(false, wdc.isDirectory("/Nextcloud.png"));
+
+        }
+        catch(Exception e)
+        {
+            fail("Exception: " + e.toString());
+        }
+    }
 }
