@@ -1,0 +1,9 @@
+package sk.uisav.icontrol;
+
+public class Settings 
+{
+    public final static String MesosWDusername = "xxxxx";
+    public final static String MesosWDpassword = "xxxxx";
+    public final static String MesosWDroot = "https://mesos.ui.sav.sk:444/remote.php/webdav/";
+    
+}
