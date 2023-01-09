@@ -198,7 +198,12 @@ public class WebDavClient
 
     public boolean isDirectory(String remote) throws IOException {
         List<WebDavResource> resList = listResources(remote);
-        return true;
+        for(WebDavResource res: resList)
+        {
+            if(res.getName().replaceAll("/$", "").equals(remote.replaceAll("/$", "")))
+                return res.getContentType().equals("httpd/unix-directory");
+        }
+        return false;
 
     }
 

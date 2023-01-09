@@ -51,10 +51,6 @@ public class WebDavClientTest {
 
     @Test
     public void testIsDirectory() {
-    }
-
-    @Test
-    public void testTestIsDirectory() {
         try
         {
             WebDavClient wdc = new WebDavClient(Settings.MesosWDusername, Settings.MesosWDpassword, Settings.MesosWDroot);
