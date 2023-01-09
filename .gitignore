@@ -1,7 +1,7 @@
-
-src/main/java/sk/uisav/icontrol/Settings.java
 /.idea/
 example.log*
 src/test/resources/log4j.properties
 target/**
 .gradle/**
+build/**
+/src/test/java/sk/uisav/icontrol/Settings.java

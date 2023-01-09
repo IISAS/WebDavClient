@@ -2,7 +2,8 @@ package sk.uisav.icontrol;
 
 import com.github.sardine.DavResource;
 import org.junit.Test;
-import sk.uisav.icontrol.Settings;;import java.io.IOException;
+import sk.uisav.icontrol.Settings;
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.Assert.*;
