@@ -28,7 +28,7 @@ public class StitcherClient
      *                    The default value is used in this parameter is null. If you provide your own value, it must
      *                    conform to the @see SimpleDateFormat formatting conventions.
      */
-    StitcherClient(WebDavClient wdclient, String huginFormat)
+    public StitcherClient(WebDavClient wdclient, String huginFormat)
     {
         this.client = wdclient;
         if(huginFormat == null)
@@ -49,7 +49,7 @@ public class StitcherClient
      * @return the size of the downloaded panorama, or -1 if there was an error
      * @throws IOException
      */
-    long getPanorama(int year, int month, int day, int hour, int minute, String outDir) throws IOException {
+    public long getPanorama(int year, int month, int day, int hour, int minute, String outDir) throws IOException {
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.set(year, month-1, day, hour, minute);
@@ -63,7 +63,7 @@ public class StitcherClient
      * @return the size of the downloaded panorama, or -1 if there was an error
      * @throws IOException
      */
-    long getPanorama(Date datetime, String outDir) throws IOException {
+    public long getPanorama(Date datetime, String outDir) throws IOException {
         SimpleDateFormat sdf = new SimpleDateFormat(this.huginFormat);
         String fname = sdf.format(datetime);
         return this.client.get(fname, outDir);
