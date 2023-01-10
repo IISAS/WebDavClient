@@ -2,8 +2,16 @@ package sk.uisav.icontrol;
 
 public class Settings 
 {
+    //the user name for the webdav server
     public final static String MesosWDusername = "xxxxx";
+    //the password for the webdav server
     public final static String MesosWDpassword = "xxxxx";
+    //the root URL of the webdav server
     public final static String MesosWDroot = "https://mesos.ui.sav.sk:444/remote.php/webdav/";
+    //the directory where output should be stored during tests
+    public final static String defaultTestOutDir = "/home/user/tempdir";
+    //a file which can be used to test uploading (preferably something small and not containing private/secret data)
+    public final static String defaultTestFile = "/etc/issue";
+
     
 }

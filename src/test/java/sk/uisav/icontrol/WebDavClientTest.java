@@ -15,7 +15,7 @@ public class WebDavClientTest {
         long ret = -1;
         try{
             WebDavClient wdc = new WebDavClient(Settings.MesosWDusername, Settings.MesosWDpassword, Settings.MesosWDroot);
-            ret = wdc.get("/Microstep/2020/02/07/2320/90_FULLHD/panasonic_fullhd_01-090-180-202002072320.jpg", "/home/ondrej/Desktop/x.jpg");
+            ret = wdc.get("/Microstep/2020/02/07/2320/90_FULLHD/panasonic_fullhd_01-090-180-202002072320.jpg", Settings.defaultTestOutDir);
         }
         catch(Exception e)
         {
@@ -28,7 +28,7 @@ public class WebDavClientTest {
     public void testPut() {
         try{
             WebDavClient wdc = new WebDavClient(Settings.MesosWDusername, Settings.MesosWDpassword, Settings.MesosWDroot);
-            wdc.put("/etc/issue", "/Microstep/test/testfile.txt");
+            wdc.put(Settings.defaultTestFile, "/Microstep/test/testfile.txt");
         }
         catch(Exception e)
         {

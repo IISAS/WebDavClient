@@ -1,11 +1,9 @@
 package sk.uisav.icontrol;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.file.StandardCopyOption;
 import java.util.LinkedList;
 import java.util.List;
@@ -98,14 +96,15 @@ public class WebDavClient
      * @param path
      * @return
      */
-    public String getFullUrl(String path)
-    {
+    public String getFullUrl(String path) {
         if(path.length() < 1)
         return wdroot;
         String retv = wdroot;
         if(path.charAt(0) != '/')
             retv += '/';
         retv += path;
+        retv = retv.replaceAll(" ","%20");
+        System.out.println("getFullUrl: " + retv);
         return retv;
     }
 
