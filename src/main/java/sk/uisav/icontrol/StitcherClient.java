@@ -69,4 +69,51 @@ public class StitcherClient
         return this.client.get(fname, outDir);
     }
 
+    /**
+     * Downloads stitcher input files for a specified date/time from WebDAV into a specified local folder
+     * @param year year of the specificed date/time
+     * @param month month of the specificed date/time
+     * @param dom day of month of the specificed date/time
+     * @param hour hour of the specificed date/time
+     * @param min minute of the specificed date/time
+     * @param destFolder the destination folder to download the files into
+     * @return number of the downloaded files
+     */
+    public int getStitcherInputs(int year, int month, int dom, int hour, int min, String destFolder)
+    {
+        /*
+         * Logika:
+         * stiahnu sa subory /Microstep/[year]/[month]/[dom]/[hour][minute/90_FULLHD/panasonic_fullhd*
+         */
+        return 0;
+    }
+
+    /**
+     * Uploads the stitching results for a specified date/time from a specified local folder into WebDAV
+     * @param year year of the specificed date/time
+     * @param month month of the specificed date/time
+     * @param dom day of month of the specificed date/time
+     * @param hour hour of the specificed date/time
+     * @param min minute of the specificed date/time
+     * @param srcFolder the source local folder where the stitcher output files are stored
+     * @return the number of uploaded files
+     */
+    public int putStitcherOutputs(int year, int month, int dom, int hour, int min, String srcFolder)
+    {
+        /*
+        Logika:
+        - folder na WebDAV ma byt /Microstep/[year]/[month]/[dom]/[hour][minute]/stitch/
+        zatial nevieme, treba objasnit
+        - ake subory ocakavame v srcFolder
+        - su to tieto?
+           imsgen_clouds-yyyyMMddHHmm
+           imsgen_infraclouds-yyyyMMddHHmm
+           imsgen_visibility_xml-yyyyMMddHHmm
+           basler-sky-stitch-imsgen_visibility_xml-yyyyMMddHHmm
+        - ak ano, ake maju pripony? Alebo je to jedno a uploadne sa hocico co odpoveda tym patternom?
+        - maju sa subory nejako premenovat, alebo sa uploadnu s tymi menami ktore maju v srcFolder?
+         */
+        return 0;
+    }
+
 }
