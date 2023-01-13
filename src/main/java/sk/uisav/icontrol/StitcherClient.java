@@ -1,10 +1,13 @@
 package sk.uisav.icontrol;
 import sk.uisav.icontrol.WebDavClient;
 
+import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Client for the stitching process, contains higher-level methods working in the logic of the stitching process
@@ -77,15 +80,26 @@ public class StitcherClient
      * @param hour hour of the specificed date/time
      * @param min minute of the specificed date/time
      * @param destFolder the destination folder to download the files into
-     * @return number of the downloaded files
+     * @return an array of int containing the number of downloaded files at index 0 and their total size at index 1
      */
-    public int getStitcherInputs(int year, int month, int dom, int hour, int min, String destFolder)
+    public int[] getStitcherInputs(int year, int month, int dom, int hour, int min, String destFolder) throws IOException
     {
         /*
          * Logika:
          * stiahnu sa subory /Microstep/[year]/[month]/[dom]/[hour][minute/90_FULLHD/panasonic_fullhd*
          */
-        return 0;
+        int[] retv = new int[2];
+        String sourceDir = String.format("/Microstep/%04d/%02d/%02d/%02d%02d/90_FULLHD", year, month, dom, hour, min);
+        List<WebDavClient.WebDavResource> files = client.listResources(sourceDir);
+        for(WebDavClient.WebDavResource res: files)
+        {
+            if(!res.isDirectory())
+            {
+                retv[1] += client.get(res.getName(), destFolder);
+                retv[0] += 1;
+            }
+        }
+        return retv;
     }
 
     /**
@@ -98,22 +112,26 @@ public class StitcherClient
      * @param srcFolder the source local folder where the stitcher output files are stored
      * @return the number of uploaded files
      */
-    public int putStitcherOutputs(int year, int month, int dom, int hour, int min, String srcFolder)
+    public int putStitcherOutputs(int year, int month, int dom, int hour, int min, String srcFolder) throws IOException
     {
         /*
         Logika:
         - folder na WebDAV ma byt /Microstep/[year]/[month]/[dom]/[hour][minute]/stitch/
-        zatial nevieme, treba objasnit
-        - ake subory ocakavame v srcFolder
-        - su to tieto?
-           imsgen_clouds-yyyyMMddHHmm
-           imsgen_infraclouds-yyyyMMddHHmm
-           imsgen_visibility_xml-yyyyMMddHHmm
-           basler-sky-stitch-imsgen_visibility_xml-yyyyMMddHHmm
-        - ak ano, ake maju pripony? Alebo je to jedno a uploadne sa hocico co odpoveda tym patternom?
-        - maju sa subory nejako premenovat, alebo sa uploadnu s tymi menami ktore maju v srcFolder?
+        - vsetky subory zo srcFolder tam uploadneme
          */
-        return 0;
+        String dest = String.format("/Microstep/%04d/%02d/%02d/%02d%02d/stitch", year, month, dom, hour, min);
+        client.createDirectory(dest);
+        int retv = 0;
+        Set<String> inFiles = Stream.of(Objects.requireNonNull(new File(srcFolder).listFiles()))
+                .filter(file -> !file.isDirectory())
+                .map(File::getPath)
+                .collect(Collectors.toSet());
+        for(String fname: inFiles)
+        {
+            client.put(fname, dest);
+            retv += 1;
+        }
+        return retv;
     }
 
 }

@@ -5,3 +5,4 @@ target/**
 .gradle/**
 build/**
 /src/test/java/sk/uisav/icontrol/Settings.java
+testdir/**

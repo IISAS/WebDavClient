@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.LinkedList;
 import java.util.List;
@@ -112,7 +114,7 @@ public class WebDavClient
      * Downloads a file from WebDAV to a local file.
      * @param remote the name of the remote file inside the WebDAV server we're using
      * @param local the name of the local downloaded file. If the name points to a directory, the name of the remote file will be used.
-     * @return 
+     * @return the total bytes copied
      * @throws IOException
      */
     public long get(String remote, String local) throws IOException
@@ -134,13 +136,22 @@ public class WebDavClient
     }
 
     /**
-     * Uploads a local file to WebDAV
+     * Uploads a local file to WebDAV. If a full pathname is given for the remote parameter, the local file
+     * will be uploaded into that pathname. If a name of remote directory is given, the file will be uploaded into
+     * this directory under its local name.
      * @param local the name of the local file to upload
-     * @param remote the name of the remote file to upload
+     * @param remote the name of the file in the webdav storage, or remote directory to upload the local file into
      * @throws IOException
      */
     public void put(String local, String remote) throws IOException
     {
+        if(this.isDirectory(remote))
+        {   //we need to add file name from the local file to the remote path
+            Path p = Paths.get(local);
+            if(! remote.endsWith("/"))
+                remote += "/";
+            remote += p.getFileName();
+        }
         String fullName = this.getFullUrl(remote);
         sardine.put(fullName, new File(local), "text/plain");
     }
@@ -196,14 +207,25 @@ public class WebDavClient
     }
 
     public boolean isDirectory(String remote) throws IOException {
-        List<WebDavResource> resList = listResources(remote);
-        for(WebDavResource res: resList)
-        {
-            if(res.getName().replaceAll("/$", "").equals(remote.replaceAll("/$", "")))
-                return res.getContentType().equals("httpd/unix-directory");
+        try {
+            List<WebDavResource> resList = listResources(remote);
+            for (WebDavResource res : resList) {
+                if (res.getName().replaceAll("/$", "").equals(remote.replaceAll("/$", "")))
+                    return res.getContentType().equals("httpd/unix-directory");
+            }
+            return false;
         }
-        return false;
+        catch(IOException e)
+        {
+            return false;
+        }
 
+    }
+
+    public void createDirectory(String remote) throws IOException
+    {
+        if(! isDirectory(remote))
+            sardine.createDirectory(this.getFullUrl(remote));
     }
 
 }
