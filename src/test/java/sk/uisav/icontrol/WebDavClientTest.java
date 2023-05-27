@@ -37,7 +37,7 @@ public class WebDavClientTest {
     public void testPut() {
         try{
             WebDavClient wdc = new WebDavClient(Settings.MesosWDusername, Settings.MesosWDpassword, Settings.MesosWDroot);
-            wdc.put(Settings.defaultTestFile, "/Microstep/test/testfile.txt");
+            wdc.put(Settings.defaultTestFile, "/Microstep/testfile.txt");
         }
         catch(Exception e)
         {

@@ -224,8 +224,14 @@ public class WebDavClient
 
     public void createDirectory(String remote) throws IOException
     {
-        if(! isDirectory(remote))
+        if(isDirectory(remote))
+            return;
+        else {
+            Path path = Paths.get(remote);
+            Path myName = path.getFileName();
+            Path superDir = path.getParent();
+            createDirectory(superDir.toString());
             sardine.createDirectory(this.getFullUrl(remote));
+        }
     }
-
 }
